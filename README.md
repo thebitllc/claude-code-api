@@ -5,7 +5,19 @@ Leverage the Claude Code SDK use mode. Don't hack the token credentials.
 
 ## Getting Started
 
-Use the Makefile to install the project or pip/uv. 
+Use the Makefile to install the project or pip/uv.
+
+![API Started](assets/api.png)
+
+![Cline use](assets/cline.png)
+
+![Cursor](assets/cursor.png)
+
+![OpenWebUI](assets/openwebui.png)
+
+![Roo Code config](assets/roocode.png)
+
+![Roo Code chat](assets/roo_code.png) 
 
 ### Python Implementation
 ```bash
