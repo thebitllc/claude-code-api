@@ -33,12 +33,17 @@ def find_claude_binary() -> str:
     except Exception:
         pass
     
+    # Check for Windows/WSL paths
+    if os.path.exists("/root/.nvm/versions/node/v22.16.0/bin/claude"):
+        return "/root/.nvm/versions/node/v22.16.0/bin/claude"
+    
     # Fallback to common npm/nvm locations
     import glob
     common_patterns = [
         "/usr/local/bin/claude",
         "/usr/local/share/nvm/versions/node/*/bin/claude",
         "~/.nvm/versions/node/*/bin/claude",
+        "/root/.nvm/versions/node/*/bin/claude",
     ]
     
     for pattern in common_patterns:

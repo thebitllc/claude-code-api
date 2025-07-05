@@ -34,6 +34,8 @@ class ClaudeProcess:
         resume_session: str = None
     ) -> bool:
         """Start Claude Code process and wait for completion."""
+        src_dir = None
+        cmd = []
         try:
             # Prepare real command - using exact format from working Claudia example
             cmd = [settings.claude_binary_path]
@@ -60,10 +62,13 @@ class ClaudeProcess:
             )
             
             # Start process from src directory (where Claude works without API key)
-            # Use absolute path to be sure
-            src_dir = "/workspaces/claude-code-api/claude_code_api"
+            # Use the provided project path or current directory
+            src_dir = self.project_path or os.getcwd()
             logger.info(f"Starting Claude from directory: {src_dir}")
             logger.info(f"Command: {' '.join(cmd)}")
+            logger.info(f"Claude binary path: {cmd[0]}")
+            logger.info(f"Directory exists: {os.path.exists(src_dir)}")
+            logger.info(f"Claude binary exists: {os.path.exists(cmd[0])}")
             
             # Claude CLI runs to completion, so we run it and capture all output
             self.process = await asyncio.create_subprocess_exec(
@@ -119,10 +124,14 @@ class ClaudeProcess:
                 return False
             
         except Exception as e:
+            import traceback
             logger.error(
                 "Failed to start Claude process",
                 session_id=self.session_id,
-                error=str(e)
+                error=str(e),
+                traceback=traceback.format_exc(),
+                command=cmd,
+                working_dir=src_dir
             )
             return False
     
